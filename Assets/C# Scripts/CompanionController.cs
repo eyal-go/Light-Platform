@@ -6,6 +6,8 @@ public class CompanionController : MonoBehaviour
 
     public Transform stickTo; //The companion will be positioned at the firepoint to fire the projectiles.
 
+    public Transform companionHead;
+
     private PlayerController playerScript; //Stores the player's script.
 
     public float radius = 3f; //How far the companion can fly around the player.
@@ -27,6 +29,8 @@ public class CompanionController : MonoBehaviour
 
     private Vector2 currentLocalPosition; //Handles as if the player is at (0,0)
 
+    private Vector2 lookDirection;
+
     private bool isFacingRight = true;
 
     private bool isDocked = false;
@@ -47,6 +51,7 @@ public class CompanionController : MonoBehaviour
 
         if(Time.time < timeToLeave)
         {
+            
             // 1. Calculate the actual horizontal offset first based on facing direction
             float actualOffsetX;
             if (playerScript.isFacingRight)
@@ -151,5 +156,12 @@ public class CompanionController : MonoBehaviour
         currentScale.x *= -1;
         transform.localScale = currentScale;
 
+    }
+
+    void HeadTilt(Vector2 target)
+    {
+        lookDirection = target - (Vector2)transform.position;
+        float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x)*Mathf.Rad2Deg;
+        companionHead.rotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 }

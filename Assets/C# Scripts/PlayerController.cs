@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     
     private Vector2 movementInput; //Stores coordinates for the direction the player is pressing
 
-    private Vector2 pointerPosition; //Stores mouse/controller location
+    public Vector2 pointerPosition; //Stores mouse/controller location
 
     private Vector2 lookDirection;
 
