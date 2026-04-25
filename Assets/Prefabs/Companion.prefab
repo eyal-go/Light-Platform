@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1995382637548923961}
   - component: {fileID: 8781107589504726953}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4322916941834636739}
   - component: {fileID: 5821893506006817571}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 381824076581973528}
   - component: {fileID: 7096027003897126782}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Companion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,6 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CompanionController
   flyAround: {fileID: 0}
   stickTo: {fileID: 0}
+  companionHead: {fileID: 0}
   radius: 3
   speed: 4
   fireSpeed: 30
@@ -250,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 239831425857275794}
   - component: {fileID: 3666429869076372074}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2125886770683108753}
   - component: {fileID: 6762590282328435758}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}

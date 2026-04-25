@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3480991159090820488}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6716389663255648395}
   - component: {fileID: 2109448367446180660}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 372875911109470936}
   - component: {fileID: 6885786311065678147}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 7169664991540533517}
   - component: {fileID: 4515654939233183680}
   - component: {fileID: 1800153842264659906}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player_Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,6 +272,7 @@ MonoBehaviour:
     m_Bits: 8
   isFacingRight: 1
   firePoint: {fileID: 3480991159090820488}
+  pointerPosition: {x: 0, y: 0}
   weapon: {fileID: 4515654939233183680}
   isFireButtonPressed: 0
 --- !u!50 &1120922730801903157

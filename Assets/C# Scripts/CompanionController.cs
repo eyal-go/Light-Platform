@@ -35,6 +35,8 @@ public class CompanionController : MonoBehaviour
 
     private bool isDocked = false;
 
+    private bool correctHeadTilt = false;
+
     void Start()
     {
         playerScript = flyAround.GetComponent<PlayerController>();
@@ -51,6 +53,8 @@ public class CompanionController : MonoBehaviour
 
         if(Time.time < timeToLeave)
         {
+            // World position of the mouse
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(playerScript.pointerPosition);
             
             // 1. Calculate the actual horizontal offset first based on facing direction
             float actualOffsetX;
@@ -83,6 +87,16 @@ public class CompanionController : MonoBehaviour
                 Vector3 fixedScale = transform.localScale;
                 fixedScale.x = Mathf.Abs(fixedScale.x); // Mathf.Abs always returns a positive number
                 transform.localScale = fixedScale;
+
+                // Tilt the head only when actively pressing the fire button
+                if(playerScript.isFireButtonPressed)
+                {
+                    HeadTilt(mousePosition);
+                }
+                else
+                {
+                    correctHeadTilt = false;
+                }
             }
             
             else  
@@ -91,18 +105,12 @@ public class CompanionController : MonoBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, targetDockPosition, fireSpeed * Time.deltaTime);
 
                 // If the target is to our right, but we are facing left
-                if (targetDockPosition.x > transform.position.x && !isFacingRight)
-                {
-                    Flip();
-                }
-                // If the target is to our left, but we are facing right
-                else if (targetDockPosition.x < transform.position.x && isFacingRight)
-                {
-                    Flip();
-                }
+                Flip(targetDockPosition.x, transform.position.x);
+                
+                // Set to look toward the docking place
+                HeadTilt(targetDockPosition);
+                
             }
-        
-
             currentLocalPosition = (Vector2)transform.position - (Vector2)flyAround.position;
         }
         
@@ -111,19 +119,13 @@ public class CompanionController : MonoBehaviour
             //Detach companion from the player
             transform.SetParent(null);
             isDocked = false;
+
             // Move our local point towards the chosen offset (the flying to point)
             currentLocalPosition = Vector2.MoveTowards(currentLocalPosition, currentOffset, speed * Time.deltaTime);
 
-            if(currentLocalPosition.x > currentOffset.x && isFacingRight)
-            {
-                Flip();
-            }
-
-            else if(currentLocalPosition.x < currentOffset.x && !isFacingRight)
-            {
-                Flip();
-            }
-
+            // Make sure companion faces the right direction.
+            Flip(currentOffset.x, currentLocalPosition.x);
+            
             //Set the companions position in the world
             transform.position = (Vector2)flyAround.position + currentLocalPosition;
 
@@ -132,9 +134,21 @@ public class CompanionController : MonoBehaviour
             {
                 nextMoveTime = Time.time + idleTime;
             }
-            else if(Time.time > nextMoveTime)
+            else
             {
-                AssignNewPoint();
+                // We make sure the head points to the right position
+                if(!correctHeadTilt)
+                {
+                    Vector3 currForwardLook = isFacingRight ? Vector3.right : Vector3.left;
+                    HeadTilt(companionHead.position + currForwardLook);
+                    correctHeadTilt = true;
+                }
+                
+                // New point only after idle time passed
+                if(Time.time > nextMoveTime)
+                {
+                    AssignNewPoint();
+                }
             }
         }
         
@@ -146,7 +160,29 @@ public class CompanionController : MonoBehaviour
         Vector2 randomPoint = Random.insideUnitCircle;
         randomPoint.y = Mathf.Abs(randomPoint.y);
         currentOffset = randomPoint * radius;
+        
+        // HeadTilt relies on correct body orientation
+        Flip(currentOffset.x, currentLocalPosition.x);
+
+        // Tilt the head towards the target.
+        HeadTilt((Vector2)flyAround.position + currentOffset);
+
+        correctHeadTilt = false;
     }
+
+    //Flips the scale of the companion when necessary
+    private void Flip(float targetX, float myX)
+    {
+        if(targetX > myX && !isFacingRight)
+        {
+            Flip();
+        }
+        else if(targetX < myX && isFacingRight)
+        {
+            Flip();
+        }
+    }
+
 
     private void Flip()
     {
@@ -158,10 +194,17 @@ public class CompanionController : MonoBehaviour
 
     }
 
-    void HeadTilt(Vector2 target)
+    void HeadTilt(Vector3 target)
     {
-        lookDirection = target - (Vector2)transform.position;
+        //standard vector 
+        lookDirection =  (Vector2)(target - companionHead.position);
         float lookAngle = Mathf.Atan2(lookDirection.y, lookDirection.x)*Mathf.Rad2Deg;
-        companionHead.rotation = Quaternion.Euler(0f, 0f, lookAngle);
+        
+        // compensate for the angle, since the head is 2D without it the head seems to overrotate.
+        if(!isFacingRight)
+        {
+            lookAngle = 180f - lookAngle;
+        }
+        companionHead.localRotation = Quaternion.Euler(0f, 0f, lookAngle);
     }
 }

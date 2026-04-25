@@ -14,39 +14,33 @@ public class LightProjectile : MonoBehaviour
         Destroy(gameObject, 2f);
     }
 
-    // הפונקציה הזו נקראת אוטומטית כשגוף נכנס לתוך ה-Trigger שלנו
-    // זו פונקציה מובנית של יוניטי (Event).
-    // היא קופצת אוטומטית ברגע שהקוליידר של הכדור נכנס לתוך קוליידר אחר (שהוא Trigger)
+    //activates when the prefab attached to the script detects a hit to a GameObject
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        // בדיקה 1: האם בכלל זיהינו פגיעה במשהו?
-        //Debug.Log("Bullet hit object: " + hitInfo.name);
-
         LightPlatform platform = hitInfo.GetComponent<LightPlatform>();
 
+        //If we detected the object we hit is a ghost platform, we activate it.
         if (platform != null)
         {
-            // בדיקה 2: האם מצאנו את הסקריפט על האובייקט?
-            //Debug.Log("Found LightPlatform script! Activating...");
-            
             platform.ActivatePlatform();
             Destroy(gameObject);
         }
         
     }
 
+    //Deactivte the moving light platform, allowing the player to reposition it.
+    //OnCollision here because an activated platform is not a trigger one.
     void OnCollisionEnter2D(Collision2D collision)
     {
         LightPlatform platform = collision.collider.GetComponent<LightPlatform>();
-
         if(platform != null)
         {
             if(platform is MovingLightPlatform && platform.IsActivated())
             {
                 platform.DeactivatePlatform();
-                Destroy(gameObject);
-            }
+            } 
         }
+        Destroy(gameObject);
     }
 }
 

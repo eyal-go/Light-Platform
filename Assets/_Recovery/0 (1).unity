@@ -1093,7 +1093,7 @@ PrefabInstance:
       objectReference: {fileID: 76468529}
     - target: {fileID: 7096027003897126782, guid: 56da2f003b5817e4cb88b4d39c9a8219, type: 3}
       propertyPath: fireSpeed
-      value: 10
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7096027003897126782, guid: 56da2f003b5817e4cb88b4d39c9a8219, type: 3}
       propertyPath: flyAround

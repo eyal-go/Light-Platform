@@ -15,16 +15,18 @@ public class LightElevator : LightPlatform
     
     void Update()
     {
+        //Moving between points when its activated
         if(isActivated)
         {
             transform.position = Vector2.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, currentTarget.position) < 0.1f)
+            if (Vector2.Distance(transform.position, currentTarget.position) < 0.1f)//Switch when reached the currentTarget.
             {
                 SwitchTarget();
             }
         }
     }
 
+    //Switches the direction the platform is moving to.
     private void SwitchTarget()
     {
         if(currentTarget == endPoint)

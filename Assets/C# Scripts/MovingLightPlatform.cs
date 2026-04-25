@@ -15,10 +15,11 @@ public class MovingLightPlatform : LightPlatform
 
     void Update()
     {
+        //This platform moves between points while it's deactivated
         if(!isActivated)
         {
             transform.position = Vector2.MoveTowards(transform.position, currentTarget.position, speed*Time.deltaTime);
-            if(Vector2.Distance(transform.position, currentTarget.position) < 0.1)
+            if(Vector2.Distance(transform.position, currentTarget.position) < 0.1) //Switch when reached the currentTarget.
             {
                 SwitchTarget();
             }
@@ -26,6 +27,7 @@ public class MovingLightPlatform : LightPlatform
         
     }
 
+    //Switches the direction the platform is moving to.
     void SwitchTarget()
     {
         if(currentTarget == endPoint)

@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class LightPlatform : MonoBehaviour
 {
-    // משתנים פרטיים (Private Members)
-    // אנחנו שומרים כאן "כתובת" לרכיבים של הפלטפורמה כדי לא לחפש אותם כל פעם מחדש
     private BoxCollider2D myCollider;
     private SpriteRenderer myRenderer;
 
